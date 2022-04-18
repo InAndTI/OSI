@@ -1,0 +1,39 @@
+#include <sys/types.h>
+#include <stdio.h>
+#include <time.h>
+#include <stdlib.h>
+#define ERROR -1
+#define CAN_CHANGE 1
+
+extern char *tzname[];
+
+enum codes_exit {
+     NOT_ENOUGH_MEMORY,
+     CANNOT_REPRESENT,
+     SUCCESSFULL
+ };
+
+ extern char *tzname[];
+
+ int main()
+ {
+     time_t now;
+     struct tm *date;
+
+     int res = setenv("TZ", "America/Los_Angeles", CAN_CHANGE);
+     if (res == ERROR) {
+         perror("setenv");
+         return NOT_ENOUGH_MEMORY;
+     }
+
+     now = time(NULL); // get time
+
+     char *str_date = ctime(&now);
+     if (!str_date) {
+         perror("ctime");
+         return CANNOT_REPRESENT;
+     }
+     printf("%s", str_date); // prints the date as a string
+          return SUCCESSFULL;
+ }
+
